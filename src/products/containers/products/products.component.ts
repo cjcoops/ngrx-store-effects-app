@@ -1,13 +1,13 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, OnInit } from "@angular/core";
+import { Store } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 
-import * as fromStore from '../../store';
-import { Pizza } from '../../models/pizza.model';
+import * as fromStore from "../../store";
+import { Pizza } from "../../models/pizza.model";
 
 @Component({
-  selector: 'products',
-  styleUrls: ['products.component.scss'],
+  selector: "products",
+  styleUrls: ["products.component.scss"],
   template: `
     <div class="products">
       <div class="products__new">
@@ -27,16 +27,16 @@ import { Pizza } from '../../models/pizza.model';
         </pizza-item>
       </div>
     </div>
-  `,
+  `
 })
 export class ProductsComponent implements OnInit {
   pizzas$: Observable<Pizza[]>;
 
-  constructor(private store: Store<fromStore.ProductsState>) {
-  }
+  constructor(private store: Store<fromStore.ProductsState>) {}
 
   ngOnInit() {
     this.pizzas$ = this.store.select<any>(fromStore.getAllPizzas);
+    this.store.dispatch(new fromStore.LoadToppings());
     this.store.dispatch(new fromStore.LoadPizzas());
   }
 }
